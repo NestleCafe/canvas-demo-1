@@ -14,26 +14,38 @@
         canvas.width = document.documentElement.clientWidth
         canvas.height = document.documentElement.clientHeight
         let ctx = canvas.getContext("2d");
-
-        
-        
         ctx.fillStyle = 'black';
         ctx.strokeStyle = 'none'
-        
+
         let painting = false
-        canvas.onmousedown = () => {
-            painting = true
+
+        var isTouchDevice = 'ontouchstart' in
+        document.documentElement;
+        // console.log(isTouchDevice)
+        // 判断是否支持触屏
+        if(isTouchDevice){
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                ctx.beginPath();
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill();
+            }
+        } else{
+            canvas.onmousedown = () => {
+                painting = true
+            }
         }
 
+        //判断鼠标点击与否
         canvas.onmousemove = (e) => {
             if(painting === true){
                 ctx.beginPath();
                 ctx.arc(e.clientX - 5, e.clientY - 5, 10, 0, 2 * Math.PI);
                 ctx.stroke();
                 ctx.fill();
-            } else{
-                console.log('什么都不做')
-            }
+            } 
 
             canvas.onmouseup = () => {
                 painting = false
