@@ -15,15 +15,26 @@
         canvas.height = document.documentElement.clientHeight
         let ctx = canvas.getContext("2d");
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'none'
+        ctx.strokeStyle = 'black'
+        ctx.lineCap = 'round'
+        ctx.lineWidth = 8;
+
+        //画线
+        function drawLine(x1, y1, x2, y2){
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
 
         let painting = false
+        let last
 
         var isTouchDevice = 'ontouchstart' in
         document.documentElement;
-        // console.log(isTouchDevice)
-        // 判断是否支持触屏
-        if(isTouchDevice){
+        //console.log(isTouchDevice)
+        //判断是否支持触屏
+        if(isTouchDevice){ 
             canvas.ontouchmove = (e) => {
                 let x = e.touches[0].clientX
                 let y = e.touches[0].clientY
@@ -33,18 +44,18 @@
                 ctx.fill();
             }
         } else{
-            canvas.onmousedown = () => {
+            canvas.onmousedown = (e) => {
                 painting = true
+                last = [e.clientX, e.clientY]
             }
         }
 
-        //判断鼠标点击与否
+        //判断鼠标移动
+        //移动过程两点画线
         canvas.onmousemove = (e) => {
             if(painting === true){
-                ctx.beginPath();
-                ctx.arc(e.clientX - 5, e.clientY - 5, 10, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.fill();
+                drawLine(last[0], last[1], e.clientX, e.clientY)
+                last = [e.clientX, e.clientY]
             } 
 
             canvas.onmouseup = () => {
