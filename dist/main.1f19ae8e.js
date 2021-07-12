@@ -194,13 +194,13 @@ module.hot.accept(reloadCSS);
 
 require("./style.css");
 
-var color = document.querySelector('.color');
-var pixSize = document.querySelector('.pixSize');
-var clearButton = document.querySelector('button');
-color.addEventListener('change', function () {
+var color = document.querySelector(".color");
+var pixSize = document.querySelector(".pixSize");
+var clearButton = document.querySelector("button");
+color.addEventListener("change", function () {
   ctx.strokeStyle = "".concat(color.value);
 });
-pixSize.addEventListener('change', function () {
+pixSize.addEventListener("change", function () {
   ctx.lineWidth = "".concat(pixSize.value);
 });
 var canvas = document.getElementById("canvas");
@@ -211,12 +211,11 @@ var offsetTop = canvas.getBoundingClientRect().top; // 计算顶部偏移量
 var ctx = canvas.getContext("2d");
 ctx.strokeStyle = "".concat(color.value);
 ctx.lineWidth = "".concat(pixSize.value);
-ctx.lineCap = 'round';
+ctx.lineCap = "round";
 var lastPoint;
 var paintingStatus = false;
 
 clearButton.onclick = function () {
-  console.log('被点击！');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 
@@ -227,12 +226,20 @@ function drawLine(x1, y1, x2, y2) {
   ctx.stroke();
 }
 
-var isTouchDevice = 'ontouchstart' in document.documentElement;
+var isTouchDevice = "ontouchstart" in document.documentElement;
 
 if (isTouchDevice) {
   canvas.ontouchstart = function (e) {
     var x = e.touches[0].clientX;
     var y = e.touches[0].clientY;
+    lastPoint = [x, y];
+  };
+
+  canvas.ontouchmove = function (e) {
+    var x = e.touches[0].clientX;
+    var y = e.touches[0].clientY;
+    drawLine(lastPoint[0], lastPoint[1], x, y);
+    lastPoint = [x, y];
   };
 } else {
   canvas.onmousedown = function (e) {
@@ -281,7 +288,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64189" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49922" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
