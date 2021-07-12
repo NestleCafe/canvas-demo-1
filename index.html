@@ -1,74 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--禁止移动端缩放-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Canvas</title>
-    <link rel="stylesheet" href="style.css">
+  </head>
 
-</head>
+  <body>
+    <ul class="data">
+      <li class="colorWrapper">
+          颜色
+        <input type="color" class="color" value="#13D36A" />
+      </li>
 
-<body>
-    <canvas id="canvas" width="100" height="100"></canvas>
-    <script>
-        let canvas = document.getElementById("canvas");
-        canvas.width = document.documentElement.clientWidth
-        canvas.height = document.documentElement.clientHeight
-        let ctx = canvas.getContext("2d");
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'black'
-        ctx.lineCap = 'round'
-        ctx.lineWidth = 8;
+      <li class="sizeWrapper">
+          像素大小
+        <input type="number" class="pixSize" min="1" value="10" />
+      </li>
 
-        //画线
-        function drawLine(x1, y1, x2, y2){
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
-        }
+      <li class="button">
+          <button>清空</button>
+      </li>
+    </ul>
+    <canvas id="canvas" ></canvas>
 
-        let painting = false
-        let last
-
-        var isTouchDevice = 'ontouchstart' in
-        document.documentElement;
-        //console.log(isTouchDevice)    判断是否支持触屏
-        if(isTouchDevice){ 
-            canvas.ontouchstart= (e) =>{
-                let x = e.touches[0].clientX
-                let y = e.touches[0].clientY
-                last = [x, y]
-            }
-            canvas.ontouchmove = (e) => {//触屏设备
-                let x = e.touches[0].clientX
-                let y = e.touches[0].clientY
-                drawLine(last[0], last[1], x, y)
-                last = [x, y]
-            }
-        } else{
-            canvas.onmousedown = (e) => {
-                painting = true
-                last = [e.clientX, e.clientY]
-            }
-        }
-
-        //判断鼠标移动
-        //移动过程两点画线
-        canvas.onmousemove = (e) => {
-            if(painting === true){
-                drawLine(last[0], last[1], e.clientX, e.clientY)
-                last = [e.clientX, e.clientY]
-            } 
-
-            canvas.onmouseup = () => {
-                painting = false
-            }
-        }
-    </script>
-    
-</body>
+    <script src="./main.js"></script>
+  </body>
 </html>
