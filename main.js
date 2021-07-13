@@ -1,5 +1,3 @@
-import "./style.css";
-
 const color = document.querySelector(".color");
 const pixSize = document.querySelector(".pixSize");
 const clearButton = document.querySelector("button");
