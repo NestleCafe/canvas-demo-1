@@ -1,8 +1,3 @@
-//阻止微信下拉
-document.querySelector('body').addEventListener('touchstart', (e)=>{
-  e.preventDefault();
-})
-
 const color = document.querySelector(".color");
 const pixSize = document.querySelector(".pixSize");
 const clearButton = document.querySelector("button");
@@ -68,3 +63,7 @@ if (isTouchDevice) {
     }
   };
 }
+
+document.body.addEventListener('touchmove', function (e) {
+  e.preventDefault(); 
+}, {passive: false});
